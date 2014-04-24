@@ -1,5 +1,3 @@
-require 'RMagick' unless Object.const_defined?("Magick")
-
 module Sass::Script::Functions
   def svg_polyfill(width, height, svgName, pngName, imageConverter)
     assert_type width, :Number
@@ -30,6 +28,7 @@ module Sass::Script::Functions
 
     case imageConverter
     when :imagemagick
+      require 'RMagick' unless Object.const_defined?("Magick")
       img = Magick::Image.read(svgPath).first
       img.resize!(width.value.to_i, height.value.to_i)
       img.write pngPath
